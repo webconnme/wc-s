@@ -87,5 +87,10 @@ func main() {
 		r.HTML(200, "setting_detail", data)
 	})
 
+	m.Get("/update", func(r render.Render) {
+		data := make(map[string] interface{})
+		r.HTML(200, "update", data)
+	})
+
 	m.Run()
 }
