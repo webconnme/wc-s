@@ -44,13 +44,17 @@ func commandFunc() {
 		go func(command Command) {
 			properties, err := json.Marshal(command.Properties)
 			log.Printf("[%v] Running with [%v]\n", command.Name, string(properties))
-			cmd := exec.Command(modules[command.Name].Path, string(properties))
-			err = cmd.Start()
-			if err != nil {
-				log.Fatal(err)
+			if info, ok := modules[command.Name]; ok {
+				cmd := exec.Command(info.Path, string(properties))
+				err = cmd.Start()
+				if err != nil {
+					log.Fatal(err)
+				}
+				err = cmd.Wait()
+				log.Printf("[%v] Finished with error: %v", command.Name, err)
+			} else {
+				log.Printf("[%v] Not exists\n", command.Name)
 			}
-			err = cmd.Wait()
-			log.Printf("[%v] Finished with error: %v", command.Name, err)
 		}(command)
 	}
 }
