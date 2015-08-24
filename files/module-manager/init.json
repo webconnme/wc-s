@@ -1,0 +1,39 @@
+[
+	{
+		"Name": "httpd",
+		"Properties": {
+			"address": "0.0.0.0",
+			"port": 3000
+		}
+	},
+	{
+		"Name": "rs232",
+		"Properties": {
+			"bitrate": 115200,
+			"databits": 8,
+			"parity": 1,
+			"stopbits": 1,
+			"flowcontrol": 1
+		}
+	},
+	{
+		"Name": "tcp-server",
+		"Properties": {
+			"address": "0.0.0.0",
+			"port": 8765
+		}
+	},
+	{
+		"Name": "wire",
+		"Properties": [
+			{
+				"dest": "/tmp/tcp-server.writer",
+				"src": "/tmp/rs232.rx"
+			},
+			{
+				"dest": "/tmp/rs232.tx",
+				"src": "/tmp/tcp-server.reader"
+			}
+		]
+	}
+]

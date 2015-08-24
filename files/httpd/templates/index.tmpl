@@ -1,0 +1,112 @@
+<!-- templates/index.tmpl -->
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+		    <h1 class="page-header"><i class="fa fa-dashboard fa-fw"></i> Dashboard</h1>
+		    <div class="clearfix"></div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <div class="row">
+	    {{ range $key, $element := .ethernet }}
+                <div class="col-lg-4 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-signal fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div>{{ $key }}</div>
+                                    <div class="module">{{ (index $element 0).IP}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/ethernet">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+	    {{ end }}
+
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-wifi fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div>wlan0</div>
+                                    <div class="module">192.168.1.1</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/ethernet">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            <!-- /.row -->
+            </div>
+
+	    <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-connectdevelop fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div>rs232</div>
+                                    <div class="module">115200-8-N-1</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/ethernet">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-connectdevelop fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div>tcp-server</div>
+                                    <div class="module">0.0.0.0:8765</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/ethernet">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            <!-- /.row -->
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
