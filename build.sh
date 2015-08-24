@@ -6,7 +6,7 @@ go get github.com/martini-contrib/render
 go get github.com/martini-contrib/cors
 
 go get --tags zmq_4_x github.com/alecthomas/gozmq
-go get github.com/tarm/goserial
+go get github.com/mikepb/go-serial
 
 
 cd src
