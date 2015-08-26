@@ -8,6 +8,13 @@ import (
 	"path"
 	"os"
 	"html/template"
+	"net/http"
+	"io/ioutil"
+	"encoding/json"
+)
+
+import (
+	"wc"
 )
 
 func getEthernetNetwork() map[string] []*net.IPNet {
@@ -44,12 +51,14 @@ func getEthernetNetwork() map[string] []*net.IPNet {
 func main() {
 	rootDir := path.Dir(os.Args[0])
 
+	wc.PrefixDir = "/webconn/rootfs"
+
 	m := martini.Classic()
 
-	m.Use(martini.Static(path.Join(rootDir, "public")))
+	m.Use(martini.Static(path.Join(rootDir, "..", "httpd", "public")))
 
 	m.Use(render.Renderer(render.Options{
-		Directory: path.Join(rootDir, "templates"),
+		Directory: path.Join(rootDir, "..", "httpd", "templates"),
 		Layout: "layout",
 	}))
 
@@ -70,26 +79,79 @@ func main() {
 		r.HTML(200, "wifi", data)
 	})
 
-	m.Get("/setting", func(r render.Render) {
-		data := make(map[string] interface{})
-
-		data["JavaScriptFiles"] = [...]string{"/js/setting.js"}
-
-		r.HTML(200, "setting", data)
-	})
-
 	m.Get("/setting/:name", func(r render.Render, params martini.Params) {
 		data := make(map[string] interface{})
 
-		data["JavaScriptFiles"] = [...]string{"/js/setting_detail.js"}
-		data["JavaScripts"] = [...]template.HTML{template.HTML("<script>loadModule('" + params["name"] + "');</script>")}
+		data["JavaScriptFiles"] = [...]string{"/js/setting.js"}
+		data["JavaScripts"] = [...]template.HTML{template.HTML("<script>initValue('" + params["name"] + "');</script>")}
 
-		r.HTML(200, "setting_detail", data)
+		r.HTML(200, "module/" + params["name"], data)
 	})
 
 	m.Get("/update", func(r render.Render) {
 		data := make(map[string] interface{})
+
+		data["JavaScriptFiles"] = [...]string{"/js/update.js"}
+
 		r.HTML(200, "update", data)
+	})
+
+
+	m.Get("/module/:name/properties", func(r render.Render, params martini.Params) {
+		modules, err := wc.FindModules()
+		if err != nil {
+			log.Panic(err)
+		}
+
+		for _, m := range modules {
+			if m.Config.Name == params["name"] {
+				r.JSON(200, m.Init.Properties)
+				return
+			}
+		}
+
+		r.JSON(200, "")
+	})
+
+	m.Post("/module/:name/properties", func(req *http.Request, r render.Render, params martini.Params) {
+		data := make(map[string]interface{})
+
+		modules, err := wc.FindModules()
+		if err != nil {
+			log.Panic(err)
+		}
+
+
+		for _, m := range modules {
+			if m.Config.Name == params["name"] {
+
+				if req.Body != nil {
+					defer req.Body.Close()
+					body, err := ioutil.ReadAll(req.Body)
+					if err != nil {
+						log.Panic(err)
+					}
+					var init wc.Init
+					err = json.Unmarshal(body, &init)
+					if err != nil {
+						log.Panic(err)
+					}
+
+					log.Println(init)
+					m.Init = init
+					err = m.WriteInit()
+					if err != nil {
+						log.Panic(err)
+					}
+				}
+
+				return
+			}
+		}
+
+		data["result"] = "fail"
+		data["error"] = params["name"] + " is not exists"
+		r.JSON(200, "")
 	})
 
 	m.Run()
