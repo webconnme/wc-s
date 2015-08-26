@@ -1,0 +1,84 @@
+<!-- templates/setting.tmpl -->
+<div id="page-wrapper">
+   <div class="row">
+      <div class="col-lg-12">
+         <h1 class="page-header"><i class="fa fa-gear fa-fw"></i> RS232</h1>
+      </div>
+      <!-- /.col-lg-12 -->
+   </div>
+   <div class="row">
+      <div class="col-lg-12">
+         <div class="panel panel-default">
+            <div class="panel-heading">
+               RS232
+            </div>
+            <div class="panel-body">
+               <div class="row">
+                  <div class="col-lg-6">
+                     <form role="form" id="rs232-form" onsubmit="return saveProperties('rs232');">
+                        <div class="form-group">
+                           <label>Baudrate</label>
+                           <select id="rs232-baudrate" name="rs232-bitrate" class="form-control">
+                              <option>1200</option>
+                              <option>2400</option>
+                              <option>4800</option>
+                              <option>9600</option>
+                              <option>14400</option>
+                              <option>19200</option>
+                              <option>28800</option>
+                              <option>38400</option>
+                              <option>56000</option>
+                              <option>57600</option>
+                              <option selected>115200</option>
+                           </select>
+                        </div>
+                        <div class="form-group">
+                           <label>Data bits</label>
+                           <select id="rs232-databits" name="rs232-databits" class="form-control">
+                              <option>5</option>
+                              <option>6</option>
+                              <option>7</option>
+                              <option selected>8</option>
+                           </select>
+                        </div>
+                        <div class="form-group">
+                           <label>Parity</label>
+                           <select id="rs232-parity" name="rs232-parity" class="form-control">
+                              <option value=1>None</option>
+                              <option value=2>Odd</option>
+                              <option value=3>Even</option>
+                              <option value=4>Mark</option>
+                              <option value=5>Space</option>
+                           </select>
+                        </div>
+                        <div class="form-group">
+                           <label>Stop bits</label>
+                           <select id="rs232-stopbits" name="rs232-stopbits" class="form-control">
+                              <option>1</option>
+                              <option>2</option>
+                           </select>
+                        </div>
+                        <div class="form-group">
+                           <label>Flow Control</label>
+                           <select id="rs232-flowcontrol" name="rs232-flowcontrol" class="form-control">
+                              <option value=1>None</option>
+                              <option value=2>XON/XOFF</option>
+                              <option value=3>RTS/CTS</option>
+                              <option value=4>DSR/DTR</option>
+                           </select>
+                        </div>
+                        <button id="rs232-submit" type="submit" class="btn btn-primary">Submit Button</button>
+                     </form>
+                  </div>
+               </div>
+               <!-- /.row (nested) -->
+            </div>
+            <!-- /.panel-body -->
+         </div>
+         <!-- /.panel -->
+      </div>
+      <!-- /.col-lg-12 -->
+   </div>
+   <!-- /.row -->
+</div>
+<!-- /#page-wrapper -->
