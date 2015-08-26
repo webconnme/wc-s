@@ -29,16 +29,40 @@ type Module struct {
 	Path string
 	Config Config
 	Init Init
+
+	HasInit bool
+	HasConfig bool
 }
+
+var PrefixDir string = ""
 
 var BinDir string = "/webconn/bin"
 var CfgDir string = "/webconn/cfg"
 
-var InitDir string = "/webconn/etc/init"
+var InitDir string = "/webconn/etc/init.d"
 
+func (module *Module) WriteInit() error {
+	if !module.HasInit {
+		return nil
+	}
 
-func ParseInit(p string, module *Module) error {
-	file, err := ioutil.ReadFile(p)
+	j, err := json.MarshalIndent(module.Init, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	err = ioutil.WriteFile(path.Join(InitDir, module.Config.Name + ".conf"), j, 0644)
+	if err != nil {
+		return err
+	}
+	
+	return nil
+}
+
+func ParseInit(name string, module *Module) error {
+	module.HasInit = false
+
+	file, err := ioutil.ReadFile(path.Join(InitDir, name + ".conf"))
 	if err != nil {
 		return err
 	}
@@ -48,11 +72,14 @@ func ParseInit(p string, module *Module) error {
 		return err
 	}
 
+	module.HasInit = true;
 	return nil
 }
 
-func ParseConfig(p string, module *Module) error {
-	file, err := ioutil.ReadFile(p)
+func ParseConfig(name string, module *Module) error {
+	module.HasConfig = false
+
+	file, err := ioutil.ReadFile(path.Join(PrefixDir, CfgDir, name + ".json"))
 	if err != nil {
 		return err
 	}
@@ -62,13 +89,14 @@ func ParseConfig(p string, module *Module) error {
 		return err
 	}
 
+	module.HasConfig = true
 	return nil
 }
 
-func FindExecutableModules() ([]Module, error) {
+func FindModules() ([]Module, error) {
 	moduleList := make([]Module, 0)
 
-	f, err := os.Open(InitDir)
+	f, err := os.Open(BinDir)
 	if err != nil {
 		return nil, err
 	}
@@ -81,22 +109,15 @@ func FindExecutableModules() ([]Module, error) {
 	for _, p := range paths {
 		module := Module{}
 
-		/////////////////////////////////////////////////////
-		// 우선 JSON 포맷으로 된 init 파일을 읽어서 파싱한다.
-		err := ParseInit(path.Join(InitDir, p), &module)
-		if err != nil {
-			log.Println(err)
-			continue
-		}
-		
-		err = ParseConfig(path.Join(CfgDir, module.Init.Name + ".cfg"), &module)
+		name := path.Base(p)
+
+		err = ParseConfig(name, &module)
 		if err != nil {
 			log.Println(err)
 			continue
 		}
 
-
-		binPath := path.Join(BinDir, module.Init.Name)
+		binPath := path.Join(PrefixDir, BinDir, name)
 		stat, err := os.Stat(binPath)
 		if err != nil {
 			log.Println(err)
@@ -107,11 +128,30 @@ func FindExecutableModules() ([]Module, error) {
 			log.Println(err)
 			continue
 		}
-
 		module.Path = binPath
 
+		/////////////////////////////////////////////////////
+		// JSON 포맷으로 된 init 파일을 읽어서 파싱한다.
+		ParseInit(name, &module)
 
 		moduleList = append(moduleList, module)
+	}
+
+	return moduleList, nil
+}
+
+func FindExecutableModules() ([]Module, error) {
+	moduleList := make([]Module, 0)
+
+	avaiableModules, err := FindModules()
+	if err != nil {
+		return nil, err
+	}
+
+	for _, m := range avaiableModules {
+		if m.HasInit {
+			moduleList = append(moduleList, m)
+		}
 	}
 
 	return moduleList, nil
