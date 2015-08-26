@@ -35,7 +35,7 @@ func main() {
 
 	// Imja : /dev/ttymxc1
 	// NXP2120 : /dev/ttyS1
-	serialPort, err := args.Open("/dev/ttymxc1")
+	serialPort, err := args.Open("/dev/ttyS1")
 	if err != nil {
 		log.Fatal("Serial Open: ", err)
 	}
@@ -60,7 +60,14 @@ func main() {
 	// serial reader
 	go func() {
 		for {
-			buf := make([]byte, 1)
+			remain, err := serialPort.InputWaiting()
+			if err != nil {
+				log.Fatal(err)
+			}
+			if remain == 0 {
+				remain = 1
+			}
+			buf := make([]byte, remain)
 			length, err := serialPort.Read(buf)
 			if err != nil {
 				log.Fatal(err)
