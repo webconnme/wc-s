@@ -75,6 +75,11 @@ func EncodeNetwork(config NetworkConfig) ([]byte, error) {
 		return nil, errors.New("Invalid format")
 	}
 
+	gatewayItems := strings.Split(config.Gateway, ".")
+	if len(gatewayItems) != 4 {
+		return nil, errors.New("Invalid format")
+	}
+
 	broadcastItems := make([]int, 4)
 	for i := 0; i < 4; i++ {
 		ip, err := strconv.Atoi(ipItems[i])
