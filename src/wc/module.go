@@ -39,7 +39,7 @@ var PrefixDir string = ""
 var BinDir string = "/webconn/bin"
 var CfgDir string = "/webconn/cfg"
 
-var InitDir string = "/webconn/etc/init.d"
+var InitDir string = "/webconn/etc/init"
 
 func (module *Module) WriteInit() error {
 	if !module.HasInit {
@@ -64,7 +64,10 @@ func ParseInit(name string, module *Module) error {
 
 	file, err := ioutil.ReadFile(path.Join(InitDir, name + ".conf"))
 	if err != nil {
-		return err
+		file, err = ioutil.ReadFile(path.Join("/etc/default", name + ".conf"))
+		if err != nil {
+			return err
+		}
 	}
 
 	err = json.Unmarshal(file, &module.Init)
@@ -96,7 +99,7 @@ func ParseConfig(name string, module *Module) error {
 func FindModules() ([]Module, error) {
 	moduleList := make([]Module, 0)
 
-	f, err := os.Open(BinDir)
+	f, err := os.Open(path.Join(PrefixDir, BinDir))
 	if err != nil {
 		return nil, err
 	}

@@ -1,7 +1,7 @@
 var initValue = function(name) {
   $.get("/module/" + name + "/properties", function(data) {
     for (var k in data) {
-      $("#" + name + "-" + k).val(data[k]);
+      $("#" + name.toLowerCase() + "-" + k.toLowerCase()).val(data[k]);
     }
   });
 }

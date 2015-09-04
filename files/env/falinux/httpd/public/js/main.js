@@ -28,4 +28,14 @@ $(function() {
 	$('#side-menu').metisMenu({
 		toggle: false
 	});
+
+  $('#btn-restart').click(function() {
+
+    $('#modal-restart').modal({backdrop: 'static', keyboard: false});
+    $.get("/proc/restart", function(data) {
+    });
+    setTimeout(function() {
+      location.reload();
+    }, 15000);
+  });
 });

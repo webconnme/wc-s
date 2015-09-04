@@ -1,0 +1,41 @@
+#!/bin/sh
+
+mkdir -p /webconn/usr/tmp
+
+if [ -z "$1" ]
+then
+	exit 1
+fi
+
+echo -n Downloading rootfs...
+wget -q -O /webconn/usr/tmp/rootfs.tar.gz $1
+if [ $? != 0 ]
+then
+	echo FAIL
+	exit 1
+fi
+echo OK
+
+echo -n Verifying the file...
+gunzip -t /webconn/usr/tmp/rootfs.tar.gz
+if [ $? != 0 ]
+then
+	echo FAIL
+	exit 1
+fi
+echo OK
+
+echo -n Erasing old rootfs...
+rm -Rf /webconn/rootfs/*
+echo OK
+
+echo -n Extracting new rootfs...
+gunzip -c /webconn/usr/tmp/rootfs.tar.gz | tar x -C /webconn/rootfs
+if [ $? != 0 ]
+then
+	echo FAIL
+	exit 1
+fi
+echo OK
+
+exit 0

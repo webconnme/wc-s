@@ -8,9 +8,13 @@ go get github.com/martini-contrib/cors
 go get --tags zmq_4_x github.com/alecthomas/gozmq
 go get github.com/mikepb/go-serial
 
-
 cd src
-for MODULE in wc-s/*
+for MODULE in wc-s/app/*
+do
+	go install $MODULE
+done
+
+for MODULE in wc-s/env/*
 do
 	go install $MODULE
 done

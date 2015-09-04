@@ -15,43 +15,37 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <form role="form">
+                                    <form role="form" id="eth0-form" onsubmit="return saveProperties('eth0');">
                                         <div class="form-group">
                                             <label class="radio-inline">
-                                                <input type="radio" name="options-eth0" id="optionsRadiosInline2" value="dhcp" checked>dhcp
+                                                <input type="radio" name="eth0-method" id="eth0-method-dhcp" value="dhcp" checked>dhcp
                                             </label>
                                             <label class="radio-inline">
-                                                <input type="radio" name="options-eth0" id="optionsRadiosInline1" value="static">static
+                                                <input type="radio" name="eth0-method" id="eth0-method-static" value="static">static
                                             </label>
                                         </div>
 
-					<div class="form-group">
+					                              <div class="form-group">
                                             <label>Address</label>
-                                            <input class="form-control">
+                                            <input class="form-control" name="eth0-ip" id="eth0-ip">
                                         </div>
 
                                         <div class="form-group">
                                             <label>Netmask</label>
-                                            <input class="form-control" placeholder="255.255.255.0">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Broadcast</label>
-                                            <input class="form-control" placeholder="192.168.255.255">
+                                            <input class="form-control" name="eth0-netmask" id="eth0-netmask" placeholder="255.255.255.0">
                                         </div>
 
                                         <div class="form-group">
                                             <label>Gateway</label>
-                                            <input class="form-control" placeholder="255.255.255.0">
+                                            <input class="form-control" name="eth0-gateway" id="eth0-gateway" placeholder="255.255.255.0">
                                         </div>
 
                                         <div class="form-group">
                                             <label>Dns server</label>
-                                            <input class="form-control" placeholder="8.8.8.8,4.4.4.4">
+                                            <input class="form-control" name="eth0-dns" id="eth0-dns" placeholder="8.8.8.8,4.4.4.4">
                                         </div>
 
-					<button type="submit" class="btn btn-primary">Submit Button</button>
-                                        <button type="reset" class="btn btn-default">Reset Button</button>
+					                              <button type="submit" class="btn btn-primary">Submit Button</button>
                                     </form>
                                 </div>
                             </div>
@@ -68,3 +62,44 @@
             </div>
         </div>
         <!-- /#page-wrapper -->
+
+<script>
+var initValue = function(name) {
+  $.get("/ethernet/eth0", function(data) {
+    var config = JSON.parse(data);
+
+    for (var k in config) {
+      switch (k.toLowerCase())  {
+        case "method":
+          $("#" + name.toLowerCase() + "-method-" + config[k].toLowerCase()).prop("checked", true);
+          break;
+        case "dns":
+          $("#" + name.toLowerCase() + "-dns").val(config[k]);
+          break;
+        default:
+          $("#" + name.toLowerCase() + "-" + k.toLowerCase()).val(config[k]);
+          break;
+      }
+    }
+  });
+}
+
+var saveProperties = function(module) {
+  var params = $('#' + module + '-form').serializeArray();
+
+  var data = {};
+
+  for (var i in params) {
+    var name = params[i].name.replace(module + '-', "");
+    data[name] = params[i].value;
+  }
+
+  console.log(JSON.stringify(data));
+
+  $.post("/ethernet/eth0", JSON.stringify(data), function(data) {
+    console.log(data);
+  });
+  return false;
+}
+
+</script>

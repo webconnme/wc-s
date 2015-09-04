@@ -17,7 +17,7 @@
                                     <i class="fa fa-signal fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div>{{ $key }}</div>
+                                    <div>{{ $key.Name }}</div>
                                     <div class="module">{{ (index $element 0).IP}}</div>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div>rs232</div>
-                                    <div class="module">115200-8-N-1</div>
+                                    <div class="module">{{ .rs232 }}</div>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div>tcp-server</div>
-                                    <div class="module">0.0.0.0:8765</div>
+                                    <div class="module">{{ .tcpServer }}</div>
                                 </div>
                             </div>
                         </div>

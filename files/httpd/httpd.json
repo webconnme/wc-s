@@ -1,8 +1,0 @@
-{
-  "name": "httpd", 
-  "version": "1.0.0", 
-  "path": "/wc-s/httpd/httpd",
-  "channels": [
-  ]
-}
-

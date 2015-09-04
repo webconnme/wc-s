@@ -36,7 +36,7 @@
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
                <li class="divider"></li>
-               <li>
+               <li id="btn-restart">
                   <a href="#">
                      <div>
                         <i class="fa fa-refresh fa-fw"></i>
@@ -61,7 +61,7 @@
                         <!-- /.nav-second-level -->
                      </li>
                      <li>
-                        <a href="/setting"><i class="fa fa-gear fa-fw"></i> Setting<span class="fa arrow"></span>;</a>
+                        <a href="/setting"><i class="fa fa-gear fa-fw"></i> Setting<span class="fa arrow"></span></a>
                         <ul id="setting-modules" class="nav nav-second-level">
                            <li><a href="/setting/rs232">RS232</a></li>
                            <li><a href="/setting/tcp-server">TCP server</a></li>
@@ -76,6 +76,15 @@
             </div>
          </nav>
          {{ yield }}
+      </div>
+
+      <div class="modal fade" id="modal-restart" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            System is restarting.<br/>
+            This page will be refreshed in 15 seconds.
+          </div>
+        </div>
       </div>
       <!-- /#wrapper -->
       <!-- jQuery -->
