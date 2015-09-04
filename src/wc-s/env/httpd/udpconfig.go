@@ -6,6 +6,7 @@ import (
 	"net"
 	"encoding/json"
 	"io/ioutil"
+	"os/exec"
 )
 
 type Response struct {
@@ -153,6 +154,13 @@ func process(req Request, message []byte) (interface{}, error) {
 			return processQuery(req, message)
 		case "update":
 			return processUpdate(req, message)
+		case "restart":
+			cmd := exec.Command("/sbin/reboot", "-f")
+			err := cmd.Start()
+			if err != nil {
+				log.Panic(err)
+			}
+			
 	}
 
 	var res Response
