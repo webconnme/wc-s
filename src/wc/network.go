@@ -95,8 +95,6 @@ func EncodeNetwork(config NetworkConfig) ([]byte, error) {
 	broadcast := fmt.Sprintf("%v.%v.%v.%v", broadcastItems[0], broadcastItems[1], broadcastItems[2], broadcastItems[3])
 
 	if config.Method == "static" {
-
-
 		scripts += "ip addr add " + config.Ip + "/" + config.Netmask + " broadcast " + broadcast + " dev eth0\n"
 		scripts += "ip link set dev eth0 up\n"
 		scripts += "ip route add default via " + config.Gateway + "\n"
@@ -108,6 +106,8 @@ func EncodeNetwork(config NetworkConfig) ([]byte, error) {
 				scripts += "echo nameserver " + dns + " >> /etc/resolv.conf\n"
 			}
 		}
+	} else if config.Method == "dhcp" {
+		scripts += "udhcpc\n"
 	}
 	return []byte(scripts), nil
 }
