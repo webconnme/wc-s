@@ -3,3 +3,5 @@ pkg/
 src/github.com/*
 
 
+*.o
+native/led/app-gpio
