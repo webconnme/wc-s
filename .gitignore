@@ -1,5 +1,6 @@
 bin/*
 pkg/
+webconn/
 src/github.com/*
 
 
