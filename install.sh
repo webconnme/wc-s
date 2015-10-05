@@ -1,4 +1,4 @@
-BASE_PATH=/nfs/webconn/pkg
+BASE_PATH=./webconn/
 
 mkdir -p ${BASE_PATH}/app/webconn/bin
 for MODULE in src/wc-s/app/*
