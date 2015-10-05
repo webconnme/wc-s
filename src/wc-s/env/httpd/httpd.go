@@ -135,9 +135,13 @@ func Httpd() {
 											getValue(prop, "Stopbits"))
 
 					case "tcp-server":
+						log.Println(m.Init.Properties)
 						prop := m.Init.Properties.(map[string] interface{})
-						data["tcpServer"] = fmt.Sprintf("%v:%v", prop["Address"], prop["Port"])
-					
+						addr := getValue(prop, "Address")
+						if addr == "" {
+							addr = "0.0.0.0"
+						}
+						data["tcpServer"] = fmt.Sprintf("%v:%v", addr, getValue(prop, "Port"))
 				}
 			}
 		}
