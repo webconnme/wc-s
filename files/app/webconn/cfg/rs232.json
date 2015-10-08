@@ -1,0 +1,9 @@
+{
+  "name": "rs232", 
+  "version": "1.0.0", 
+  "channels": [
+    {"name": "rx", "direction": "OUT", "path": "/tmp/rs232.rx"}, 
+    {"name": "tx", "direction": "IN", "path": "/tmp/rs232.tx"}
+  ]
+}
+

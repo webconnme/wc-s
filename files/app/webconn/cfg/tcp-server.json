@@ -1,0 +1,9 @@
+{
+  "name": "tcp-server", 
+  "version": "1.0.0", 
+  "channels": [
+    {"name": "reader", "direction": "OUT", "path": "/tmp/tcp-server.reader"}, 
+    {"name": "writer", "direction": "IN", "path": "/tmp/tcp-server.writer"}
+  ]
+}
+

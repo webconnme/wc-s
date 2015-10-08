@@ -1,0 +1,9 @@
+bin/*
+pkg/
+webconn/
+src/github.com/*
+
+
+native/**/build
+native/**/app-gpio
+native/**/app-drv
