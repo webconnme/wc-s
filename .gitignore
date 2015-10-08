@@ -4,5 +4,6 @@ webconn/
 src/github.com/*
 
 
-*.o
-native/led/app-gpio
+native/**/build
+native/**/app-gpio
+native/**/app-drv
