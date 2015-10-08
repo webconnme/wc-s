@@ -7,7 +7,6 @@ import (
 import (
 	"os"
 	"log"
-	"reflect"
 	"unsafe"
 )
 
@@ -39,14 +38,15 @@ func main() {
 	}
 	log.Printf("read: %v\n", string(read_buffer[:n]))
 
-
-
 	ioctl_buffer := 0
-	header := (*reflect.SliceHeader)(unsafe.Pointer(&ioctl_buffer))
+	header := unsafe.Pointer(&ioctl_buffer)
 
-	ioctl.IOCTL(uintptr(file.Fd()), ioctl.IOW('I', 0, 4), 0)
-	ioctl.IOCTL(uintptr(file.Fd()), ioctl.IOR('I', 1, 4), header.Data)
 
+	ioctl.IOCTL(uintptr(file.Fd()), ioctl.IOW('I', 0, 4), uintptr(header))
+	log.Printf("ioctl_write: %v\n", ioctl_buffer)
+
+	ioctl_buffer = 0
+	ioctl.IOCTL(uintptr(file.Fd()), ioctl.IOR('I', 1, 4), uintptr(header))
 	log.Printf("ioctl_read: %v\n", ioctl_buffer)
 
 /*
