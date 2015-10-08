@@ -1,5 +1,7 @@
 #!/bin/sh
 
+./goget.sh
+
 cd src
 for MODULE in wc-s/app/*
 do
