@@ -18,31 +18,31 @@
                                     <form role="form" id="eth0-form" onsubmit="return saveProperties('eth0');">
                                         <div class="form-group">
                                             <label class="radio-inline">
-                                                <input type="radio" name="eth0-method" id="eth0-method-dhcp" value="dhcp" checked>dhcp
+                                                <input type="radio" name="eth0-method" id="eth0-method-dhcp" value="dhcp">dhcp
                                             </label>
                                             <label class="radio-inline">
-                                                <input type="radio" name="eth0-method" id="eth0-method-static" value="static">static
+                                                <input type="radio" name="eth0-method" id="eth0-method-static" value="static" checked>static
                                             </label>
                                         </div>
 
 					                              <div class="form-group">
                                             <label>Address</label>
-                                            <input class="form-control" name="eth0-ip" id="eth0-ip">
+                                            <input class="form-control" name="eth0-ip" id="eth0-ip" value="192.168.10.232">
                                         </div>
 
                                         <div class="form-group">
                                             <label>Netmask</label>
-                                            <input class="form-control" name="eth0-netmask" id="eth0-netmask" placeholder="255.255.255.0">
+                                            <input class="form-control" name="eth0-netmask" id="eth0-netmask" value="255.255.255.0">
                                         </div>
 
                                         <div class="form-group">
                                             <label>Gateway</label>
-                                            <input class="form-control" name="eth0-gateway" id="eth0-gateway" placeholder="255.255.255.0">
+                                            <input class="form-control" name="eth0-gateway" id="eth0-gateway" value="192.168.10.1">
                                         </div>
 
                                         <div class="form-group">
                                             <label>Dns server</label>
-                                            <input class="form-control" name="eth0-dns" id="eth0-dns" placeholder="8.8.8.8,4.4.4.4">
+                                            <input class="form-control" name="eth0-dns" id="eth0-dns" value="8.8.8.8">
                                         </div>
 
 					                              <button type="submit" class="btn btn-primary">Submit Button</button>
