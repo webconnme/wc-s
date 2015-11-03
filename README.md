@@ -1,3 +1,0 @@
-# chip-httpd
-
-test
