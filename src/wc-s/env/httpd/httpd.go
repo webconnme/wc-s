@@ -211,6 +211,11 @@ func Httpd() {
 			log.Println(err)
 		}
 
+		updateInfo, err := checkUpdateVersion(model)
+		if err != nil {
+			log.Println(err)
+		}
+
 		data := make(map[string] interface{})
 
 		data["JavaScriptFiles"] = [...]string{"/js/update.js"}
